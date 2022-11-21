@@ -1,0 +1,26 @@
+{% extends "../base.html" %}
+
+
+{% block content %}
+
+registrar
+
+{% if messages %}
+{% for msg in messages %}
+<div class="notification {{ msg.tags }}">
+    {{ msg }}
+</div>
+{% endfor %}
+{% endif %}
+
+{{ error }}
+
+<form method="post" class="form-control-sm form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button>Submit</button>
+
+</form>
+
+{% endblock %}

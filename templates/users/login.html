@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+
+
+{% block content %}
+
+Ingresar
+
+{{ error }}
+
+<form method="post" class="form-control-sm form">
+    {% csrf_token %}
+    {{ form }}
+
+    <button>Iniciar sesion</button>
+</form>
+
+{% endblock %}
