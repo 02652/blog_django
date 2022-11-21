@@ -1,11 +1,10 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import View
-from .forms import PostCreateForm, UserRegisterForm, PhoneNumberForm
-from .models import Author, Post
+from .forms import CommentForm, PostCreateForm, UserRegisterForm
+from .models import Author, Comment, Post
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from django.forms import formset_factory
 
 
 class RegisterUser(View):
@@ -114,7 +113,23 @@ class HomeView(View):
 class DetailPost(View):
     def get(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        form = CommentForm()
+        comments = Comment.objects.filter(post=post)
         context = {
-            'post': post
+            'post': post,
+            'form': form,
+            'comments': comments
         }
         return render(request, 'posts/detail.html', context)
+
+    def post(self, request, pk):
+        if request.method == 'POST':
+            post = get_object_or_404(Post, pk=pk)
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.author = request.user
+                new_comment.post = post
+                new_comment.save()
+
+                return redirect('posts:detail_post', pk=pk)

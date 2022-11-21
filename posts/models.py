@@ -13,6 +13,7 @@ class Author(AbstractUser):
     door = models.CharField(null=True, blank=True, max_length=10)
     postal_code = models.CharField(null=True, blank=True, max_length=20)
     city = models.CharField(null=True, blank=True, max_length=20)
+    number_phone = models.CharField(null=True, blank=True, max_length=20)
 
     def __str__(self):
         return self.name
@@ -26,17 +27,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title + '-' + self.author.username
-#
-# class Comment(models.Model):
-#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-#     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-#     content = models.TextField()
-#     publication_date = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.content
 
-
-class PhoneNumber(models.Model):
+class Comment(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    number_phone = models.CharField(max_length=20)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.TextField()
+    publication_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
+#
+# class PhoneNumber(models.Model):
+#     author = models.ForeignKey(Author, on_delete=models.CASCADE)
+#     number_phone = models.CharField(max_length=20)
