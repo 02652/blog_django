@@ -1,16 +1,32 @@
 {% extends "../base.html" %}
+{% load humanize %}
 
 {% block content %}
 
-<main class="container">
+<main class="container container-lg py-2">
 
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.content }}</p>
+    <div class="py-5">
+        <h1 class="fw-bold">{{ post.title }}</h1>
+        <p class="fs-6 small fst-italic text-secondary">
+            Posted in <time>{{ post.publication_date.date }}</time> by
+            {{ post.author.username }}
+        </p>
+        {% for tag in post.tags.all %}
+        <a href="{% url 'posts:tagged' tag.slug %}"
+            class="mr-1 badge badge-info btn btn-info mb-3 text-dark">#{{tag}}</a>
 
-    <section style="background-color: #eee;">
+        {% endfor %}
+
+
+        <p class="fs-5 text-black">{{ post.content }}</p>
+
+    </div>
+
+
+    <section>
         <div class="container my-5 py-5">
             <div class="row d-flex justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-8">
+                <div class="">
                     <div class="card">
                         {% if user.is_authenticated %}
 
@@ -50,7 +66,7 @@
                         </div>
 
                         {% else %}
-                        <a href="{% url 'posts:register' %}">Registrase para comentar</a>
+                        <a class="btn btn-success" href="{% url 'posts:register' %}">Registrase para comentar</a>
 
                         {% endif %}
 

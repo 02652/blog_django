@@ -3,15 +3,21 @@
 
 {% block content %}
 
-Ingresar
-
 {{ error }}
 
-<form method="post" class="form-control-sm form">
+<form class="card card-body m-auto container my-4" method="post">
+    <h1 class="pb-3 fw-bold">Iniciar sesion</h1>
     {% csrf_token %}
-    {{ form }}
+    <div class="mb-3">
+        <label for="username" class="form-label">Ingrese su usuario</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Ingrese su contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
 
-    <button>Iniciar sesion</button>
+    <button class="btn btn-primary">Iniciar sesion</button>
 </form>
 
 {% endblock %}

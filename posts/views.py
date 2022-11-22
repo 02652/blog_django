@@ -5,6 +5,7 @@ from .models import Author, Comment, Post
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from taggit.models import Tag
 
 
 class RegisterUser(View):
@@ -104,10 +105,24 @@ class CreatePost(View):
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         posts = Post.objects.all()
+        common_tags = Post.tags.most_common()
         context = {
-            'posts': posts
+            'posts': posts,
+            'common_tags': common_tags,
         }
         return render(request, 'posts/index.html', context)
+
+
+def tagged(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    posts = Post.objects.filter(tags=tag)
+    common_tags = Post.tags.most_common()
+    context = {
+        'tag': tag,
+        'posts': posts,
+        'common_tags': common_tags,
+    }
+    return render(request, 'posts/index.html', context)
 
 
 class DetailPost(View):

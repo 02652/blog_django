@@ -3,12 +3,18 @@
 
 {% block content %}
 
-<form method="post" class="form card">
+<form class="card card-body m-auto container my-4" method="post">
     {% csrf_token %}
-    title{{ form.title }}
-    content{{ form.content }}
-    tags{{ form.tags }}
-    <button>Submit</button>
+    <h1 class="pb-3 fw-bold">Agregar Noticia</h1>
+    {% for f in form %}
+    <div class="mb-3">
+        <label for="{{ f.auto_id }}" class="form-label">{{ f.label }}</label>
+        {{ f }}
+    </div>
+
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Crear noticia</button>
 </form>
 
 {% endblock %}

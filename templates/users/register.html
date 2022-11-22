@@ -3,24 +3,20 @@
 
 {% block content %}
 
-registrar
-
-{% if messages %}
-{% for msg in messages %}
-<div class="notification {{ msg.tags }}">
-    {{ msg }}
-</div>
-{% endfor %}
-{% endif %}
-
 {{ error }}
 
-<form method="post" class="form-control-sm form">
+<form class="card card-body m-auto container my-4" method="post">
+    <h1 class="pb-3 fw-bold">Registrase</h1>
     {% csrf_token %}
-    {{ form.as_p }}
+    {% for f in form %}
+    <div class="form-outline mb-4">
+        <label for="{{ f.auto_id }}" class="form-label">{{ f.label }}</label>
+        {{ f }}
+    </div>
 
-    <button>Submit</button>
+    {% endfor %}
 
+    <button class="btn btn-primary btn-block mb-4">Registrarce usuario</button>
 </form>
 
 {% endblock %}
